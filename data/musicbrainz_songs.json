@@ -1,0 +1,439 @@
+{
+    "created": "2026-10-09T16:10:33.797Z",
+    "count": 24,
+    "offset": 0,
+    "recordings": [
+        {
+            "id": "d8e0205c-3a7b-4f65-85ea-4abc1b0c3420",
+            "score": 100,
+            "artist-credit-id": "efbb9833-a447-3d3e-8512-c769e4449a7b",
+            "title": "Lag Ja Gale",
+            "length": 226000,
+            "video": null,
+            "artist-credit": [
+                {
+                    "name": "Rahat Fateh Ali Khan",
+                    "artist": {
+                        "id": "014431e3-c5a3-4a57-b86b-fe8f2e3253ff",
+                        "name": "Rahat Fateh Ali Khan",
+                        "sort-name": "Fateh Ali Khan, Rahat",
+                        "aliases": [
+                            {
+                                "sort-name": "Rahat Feteh Ali Khan",
+                                "name": "Rahat Feteh Ali Khan",
+                                "locale": null,
+                                "type": null,
+                                "primary": null,
+                                "begin-date": null,
+                                "end-date": null
+                            },
+                            {
+                                "sort-name": "Rahat Nusrat Fateh Ali Khan",
+                                "name": "Rahat Nusrat Fateh Ali Khan",
+                                "locale": null,
+                                "type": null,
+                                "primary": null,
+                                "begin-date": null,
+                                "end-date": null
+                            },
+                            {
+                                "sort-name": "راحت فتح علی خان",
+                                "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                                "name": "راحت فتح علی خان",
+                                "locale": "ur",
+                                "type": "Artist name",
+                                "primary": true,
+                                "begin-date": null,
+                                "end-date": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            "first-release-date": "2017-08-28",
+            "releases": [
+                {
+                    "id": "104fc5bf-36d3-419f-8d4c-a5f99ae310bc",
+                    "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                    "artist-credit-id": "eec39784-cc57-3bad-87dc-bb449301cb3f",
+                    "count": 1,
+                    "title": "Bhoomi",
+                    "status": "Official",
+                    "artist-credit": [
+                        {
+                            "name": "Sachin-Jigar",
+                            "artist": {
+                                "id": "fdf25d7c-d8f4-4736-ad24-bf2286a61254",
+                                "name": "Sachin‐Jigar",
+                                "sort-name": "Sachin‐Jigar",
+                                "disambiguation": "music directing/composing duo"
+                            }
+                        }
+                    ],
+                    "release-group": {
+                        "id": "6c1028a2-18d3-4b8e-911e-617658a39a75",
+                        "type-id": "22a628ad-c082-3c4f-b1b6-d41665107b88",
+                        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                        "title": "Bhoomi",
+                        "primary-type": "Album",
+                        "secondary-types": [
+                            "Soundtrack"
+                        ],
+                        "secondary-type-ids": [
+                            "22a628ad-c082-3c4f-b1b6-d41665107b88"
+                        ]
+                    },
+                    "date": "2017-08-28",
+                    "country": "IN",
+                    "release-events": [
+                        {
+                            "date": "2017-08-28",
+                            "area": {
+                                "id": "d31a9a15-537f-3669-ad53-25753ddd2772",
+                                "name": "India",
+                                "sort-name": "India",
+                                "iso-3166-1-codes": [
+                                    "IN"
+                                ]
+                            }
+                        }
+                    ],
+                    "track-count": 6,
+                    "media": [
+                        {
+                            "id": "7c907d35-2e8a-3d39-bbc9-996bcbca5bee",
+                            "position": 1,
+                            "track": [
+                                {
+                                    "id": "d18681e0-ff25-4fd2-9cc8-ff4d6e6a04bc",
+                                    "number": "2",
+                                    "title": "Lag Ja Gale",
+                                    "length": 226000
+                                }
+                            ],
+                            "track-count": 6,
+                            "track-offset": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "87891dbf-b22c-43e2-a727-042a7c76b5e0",
+            "score": 100,
+            "artist-credit-id": "efbb9833-a447-3d3e-8512-c769e4449a7b",
+            "title": "Lag Ja Gale",
+            "length": 225873,
+            "video": null,
+            "artist-credit": [
+                {
+                    "name": "Rahat Fateh Ali Khan",
+                    "artist": {
+                        "id": "014431e3-c5a3-4a57-b86b-fe8f2e3253ff",
+                        "name": "Rahat Fateh Ali Khan",
+                        "sort-name": "Fateh Ali Khan, Rahat",
+                        "aliases": [
+                            {
+                                "sort-name": "Rahat Feteh Ali Khan",
+                                "name": "Rahat Feteh Ali Khan",
+                                "locale": null,
+                                "type": null,
+                                "primary": null,
+                                "begin-date": null,
+                                "end-date": null
+                            },
+                            {
+                                "sort-name": "Rahat Nusrat Fateh Ali Khan",
+                                "name": "Rahat Nusrat Fateh Ali Khan",
+                                "locale": null,
+                                "type": null,
+                                "primary": null,
+                                "begin-date": null,
+                                "end-date": null
+                            },
+                            {
+                                "sort-name": "راحت فتح علی خان",
+                                "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+                                "name": "راحت فتح علی خان",
+                                "locale": "ur",
+                                "type": "Artist name",
+                                "primary": true,
+                                "begin-date": null,
+                                "end-date": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            "first-release-date": "2017-08-28",
+            "releases": [
+                {
+                    "id": "d7271c5f-9bd3-49e8-8b28-eced761aa668",
+                    "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                    "artist-credit-id": "eec39784-cc57-3bad-87dc-bb449301cb3f",
+                    "count": 1,
+                    "title": "Bhoomi",
+                    "status": "Official",
+                    "artist-credit": [
+                        {
+                            "name": "Sachin-Jigar",
+                            "artist": {
+                                "id": "fdf25d7c-d8f4-4736-ad24-bf2286a61254",
+                                "name": "Sachin‐Jigar",
+                                "sort-name": "Sachin‐Jigar",
+                                "disambiguation": "music directing/composing duo"
+                            }
+                        }
+                    ],
+                    "release-group": {
+                        "id": "6c1028a2-18d3-4b8e-911e-617658a39a75",
+                        "type-id": "22a628ad-c082-3c4f-b1b6-d41665107b88",
+                        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+                        "title": "Bhoomi",
+                        "primary-type": "Album",
+                        "secondary-types": [
+                            "Soundtrack"
+                        ],
+                        "secondary-type-ids": [
+                            "22a628ad-c082-3c4f-b1b6-d41665107b88"
+                        ]
+                    },
+                    "date": "2017-08-28",
+                    "country": "IN",
+                    "release-events": [
+                        {
+                            "date": "2017-08-28",
+                            "area": {
+                                "id": "d31a9a15-537f-3669-ad53-25753ddd2772",
+                                "name": "India",
+                                "sort-name": "India",
+                                "iso-3166-1-codes": [
+                                    "IN"
+                                ]
+                            }
+                        }
+                    ],
+                    "track-count": 8,
+                    "media": [
+                        {
+                            "id": "4a19f695-9588-368a-afb7-8a28b3bac2d8",
+                            "position": 1,
+                            "format": "Digital Media",
+                            "track": [
+                                {
+                                    "id": "3c913097-b72b-43db-babc-5e9f528aac36",
+                                    "number": "2",
+                                    "title": "Lag Ja Gale",
+                                    "length": 225873
+                                }
+                            ],
+                            "track-count": 8,
+                            "track-offset": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "73da27c6-1d4e-44ef-94c2-f5a10af09636",
+            "score": 100,
+            "artist-credit-id": "8746063c-473d-3b5e-bbcd-d56df103f1ce",
+            "title": "Lag Ja Gale",
+            "length": 176000,
+            "video": null,
+            "artist-credit": [
+                {
+                    "name": "Pankaj Kumar",
+                    "artist": {
+                        "id": "2c7511cc-12f0-4542-afa2-d457d491cbe9",
+                        "name": "Pankaj Kumar",
+                        "sort-name": "Kumar, Pankaj"
+                    }
+                }
+            ],
+            "first-release-date": "2020-03-15",
+            "releases": [
+                {
+                    "id": "7105f33a-83c7-45e4-943f-14b122fbe3eb",
+                    "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                    "count": 1,
+                    "title": "Lag Ja Gale",
+                    "status": "Official",
+                    "release-group": {
+                        "id": "bd2821ec-86a8-4fcc-bca3-9a634e3bf175",
+                        "type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+                        "primary-type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+                        "title": "Lag Ja Gale",
+                        "primary-type": "Single"
+                    },
+                    "date": "2020-03-15",
+                    "country": "IN",
+                    "release-events": [
+                        {
+                            "date": "2020-03-15",
+                            "area": {
+                                "id": "d31a9a15-537f-3669-ad53-25753ddd2772",
+                                "name": "India",
+                                "sort-name": "India",
+                                "iso-3166-1-codes": [
+                                    "IN"
+                                ]
+                            }
+                        }
+                    ],
+                    "track-count": 1,
+                    "media": [
+                        {
+                            "id": "852e5f9b-b95a-3aad-9fef-cd19178cdb7d",
+                            "position": 1,
+                            "format": "Digital Media",
+                            "track": [
+                                {
+                                    "id": "fbb7a8a9-c327-4f8d-8607-11e83229a2b3",
+                                    "number": "8",
+                                    "title": "Lag Ja Gale",
+                                    "length": 176000
+                                }
+                            ],
+                            "track-count": 1,
+                            "track-offset": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "3bbf96ed-85c7-4fea-ac01-50e2873c5d4d",
+            "score": 100,
+            "artist-credit-id": "b2e9d040-cc71-316e-b6fb-2afd19e2b81e",
+            "title": "Lag Ja Gale",
+            "video": null,
+            "artist-credit": [
+                {
+                    "name": "Minhajur Rahman Albi",
+                    "artist": {
+                        "id": "2096c9c2-742f-4b7e-89a7-2edd4d93cdf7",
+                        "name": "Minhajur Rahman Albi",
+                        "sort-name": "Albi, Minhajur Rahman"
+                    }
+                }
+            ],
+            "first-release-date": "2021-04-27",
+            "releases": [
+                {
+                    "id": "731a5dad-a1a4-499f-a47d-b1bc00a1a460",
+                    "count": 1,
+                    "title": "Lag Ja Gale",
+                    "release-group": {
+                        "id": "bd2821ec-86a8-4fcc-bca3-9a634e3bf175",
+                        "type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+                        "primary-type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+                        "title": "Lag Ja Gale",
+                        "primary-type": "Single"
+                    },
+                    "date": "2021-04-27",
+                    "country": "XW",
+                    "release-events": [
+                        {
+                            "date": "2021-04-27",
+                            "area": {
+                                "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+                                "name": "[Worldwide]",
+                                "sort-name": "[Worldwide]",
+                                "iso-3166-1-codes": [
+                                    "XW"
+                                ]
+                            }
+                        }
+                    ],
+                    "track-count": 1,
+                    "media": [
+                        {
+                            "id": "30a4eb16-2b32-31ec-bf8c-3e3d89721dc2",
+                            "position": 1,
+                            "format": "Digital Media",
+                            "track": [
+                                {
+                                    "id": "3d326475-dba5-4794-9a44-309a43ad3904",
+                                    "number": "1",
+                                    "title": "Lag Ja Gale"
+                                }
+                            ],
+                            "track-count": 1,
+                            "track-offset": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "73f319e5-e257-42f8-a1fb-49ba51c53ec9",
+            "score": 100,
+            "artist-credit-id": "d2a5409d-4eed-30eb-a17c-110691653e84",
+            "title": "Lag Ja Gale",
+            "length": 240953,
+            "video": null,
+            "artist-credit": [
+                {
+                    "name": "Sanam",
+                    "artist": {
+                        "id": "b458fc3f-b9b5-4ff3-ba6a-748c9a1aac83",
+                        "name": "Sanam",
+                        "sort-name": "Sanam",
+                        "disambiguation": "Indian Band"
+                    }
+                }
+            ],
+            "first-release-date": "2014-07-16",
+            "releases": [
+                {
+                    "id": "4b5123bd-8a63-49d3-8b1e-6819f59da162",
+                    "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+                    "count": 1,
+                    "title": "Lag Ja Gale",
+                    "status": "Official",
+                    "release-group": {
+                        "id": "1178a4d7-9175-4a46-bf78-1e3b6a674507",
+                        "type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+                        "primary-type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+                        "title": "Lag Ja Gale",
+                        "primary-type": "Single"
+                    },
+                    "date": "2014-07-16",
+                    "country": "XW",
+                    "release-events": [
+                        {
+                            "date": "2014-07-16",
+                            "area": {
+                                "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+                                "name": "[Worldwide]",
+                                "sort-name": "[Worldwide]",
+                                "iso-3166-1-codes": [
+                                    "XW"
+                                ]
+                            }
+                        }
+                    ],
+                    "track-count": 1,
+                    "media": [
+                        {
+                            "id": "0fbbc5a8-eb8b-4a33-bdc3-4b993821005e",
+                            "position": 1,
+                            "format": "Digital Media",
+                            "track": [
+                                {
+                                    "id": "60ada7c0-c438-4946-ae32-dd8b073a5493",
+                                    "number": "1",
+                                    "title": "Lag Ja Gale",
+                                    "length": 240953
+                                }
+                            ],
+                            "track-count": 1,
+                            "track-offset": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*service-account*.json
+*credentials*.json
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Application logs and process files
+*.log
+*.pid
+logs/
+
+# Local database files and backups
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.backup
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Development backups and historical versions
+*.bak
+*_backup.py
+*_before_*.py
+*_before_*.json
+*_backup.json
+
+# Generated embeddings and failed-processing output
+data/hindi_song_embeddings.json
+data/hindi_songs_failed.json
+
+# Historical intermediate datasets
+data/hindi_songs_incremental_before_*.json
