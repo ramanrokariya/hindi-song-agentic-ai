@@ -1,3 +1,8 @@
+# Project: Hindi Song Agentic AI Search Engine
+# Author: Raman Rokariya
+# Book: Building an Agentic AI Song Search Engine
+# Release: Volume 1 - v1.0-book
+
 from fastapi.testclient import TestClient
 
 from backend.main import app

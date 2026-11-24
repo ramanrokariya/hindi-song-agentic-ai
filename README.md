@@ -697,3 +697,45 @@ Documentation verification is separate from automated
 application regression and live integration testing.
 
 Reference counts may change as documentation is updated.
+
+## About the Author
+
+**Raman Rokariya**
+
+Raman Rokariya is an experienced Software Engineering and API Platform
+professional with over 20 years of experience in Information Technology,
+specializing in enterprise integration, API management, platform
+engineering, automation, security and distributed systems.
+
+He is the author, architect and developer of the Hindi Song Agentic AI
+Search Engine, an enterprise-oriented AI solution that integrates
+Generative AI, natural language understanding, vector embeddings,
+semantic search, structured metadata filtering and intelligent
+agent orchestration.
+
+The solution leverages Google Cloud, Gemini, Python, PostgreSQL,
+pgvector and FastAPI, incorporating enterprise engineering practices
+such as modular architecture, API design, structured logging,
+exception handling, automated regression testing, dependency
+management, database persistence and version-controlled releases.
+
+His approach emphasizes practical implementation, maintainability,
+reliability, extensibility and architectural foundations for
+scalable AI-powered applications.
+
+Beyond his professional career in technology, Raman is a passionate
+singer and music enthusiast with an active presence on platforms
+such as YouTube, Smule and StarMaker. He is also an active volunteer
+in cultural events, community programs and social gatherings.
+
+His passion for music inspired the selection of song discovery as
+the use case for this Agentic AI solution. The project brings
+together two of his greatest interests — technology and music —
+addressing the challenge of discovering songs through natural
+language based on mood, genre, occasion and listening preferences
+rather than relying solely on conventional keyword-based searches.
+
+Through this book, he shares his technical experience and
+implementation approach to architecting and building end-to-end
+Agentic AI solutions using modern cloud technologies and established
+software engineering practices.
