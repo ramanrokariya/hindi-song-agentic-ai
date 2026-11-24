@@ -26,6 +26,7 @@ class SongSearchIntent(BaseModel):
     listening_time: Optional[str] = None
     occasion: Optional[str] = None
     subject: Optional[str] = None
+    category: Optional[str] = None
     limit: int = Field(ge=1, le=50)
     semantic_query: str
 
@@ -35,6 +36,7 @@ class SongResult(BaseModel):
     title: str
     similarity: float = Field(ge=-1, le=1)
     structured_match: bool
+    category: Optional[str] = None
 
 
 class SongSearchResponse(BaseModel):

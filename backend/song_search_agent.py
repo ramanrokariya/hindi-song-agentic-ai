@@ -15,6 +15,7 @@ def run_song_agent(user_query):
         mood=intent.mood,
         listening_time=intent.listening_time,
         occasion=intent.occasion,
+        category=intent.category,
         limit=intent.limit,
     )
 

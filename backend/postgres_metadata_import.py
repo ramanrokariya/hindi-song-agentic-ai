@@ -70,7 +70,7 @@ def main():
                             enrichment.get("listening_time")
                         ),
                         as_text_array(enrichment.get("occasion")),
-                        enrichment.get("category"),
+                        song.get("discovery_category_hint"),
                         as_text_array(song.get("artists")),
                         song["musicbrainz_id"],
                     ),

@@ -1,6 +1,7 @@
 
 import json
 import os
+from typing import Literal
 
 from pydantic import BaseModel, Field
 from google import genai
@@ -16,6 +17,13 @@ class SongSearchIntent(BaseModel):
     listening_time: str | None = None
     occasion: str | None = None
     subject: str | None = None
+    category: Literal[
+        "garba",
+        "krishna_bhajan",
+        "devotional",
+        "folk",
+        "patriotic",
+    ] | None = None
     limit: int = Field(default=5, ge=1, le=50)
     semantic_query: str
 
@@ -52,6 +60,38 @@ Rules:
 - Listening time examples: morning, afternoon, evening, night.
 - Occasion examples: Janmashtami, Navratri, Independence Day.
 - Subject examples: Krishna, Rama, Shiva, Mata Rani.
+- Category values: garba, krishna_bhajan,
+  devotional, folk, patriotic.
+- Use category garba for explicit Garba or Dandiya
+  song requests.
+- Use category krishna_bhajan for explicit Krishna
+  bhajan requests.
+- For these category-specific requests, do not infer
+  additional genre, mood, listening time, or occasion
+  filters unless independently requested.
+- Genre and category are distinct search filters.
+- For general devotional, folk, patriotic, or romantic
+  song requests, set genre to the requested genre
+  and category to null.
+- Do not use devotional, folk, or patriotic as category
+  unless a specific discovery category is explicitly requested.
+- Use category garba for Garba or Dandiya requests.
+- Use category krishna_bhajan for Krishna bhajan requests.
+- Combine genre and category only when both are
+  independently requested.
+
+Examples of correct filter selection:
+- Find devotional songs: genre=devotional, category=null.
+- Find folk songs: genre=folk, category=null.
+- Find patriotic songs: genre=patriotic, category=null.
+- Find romantic songs: genre=romantic, category=null.
+- Find Krishna Bhajans: genre=null, category=krishna_bhajan.
+- Find Garba songs: genre=null, category=garba.
+- Find folk Garba songs: genre=folk, category=garba.
+- Use null for category when no specific discovery
+  category is requested.
+- Preserve subjects in semantic_query; subject
+  is not a database filter.
 - Limit defaults to 5, maximum 50.
 - semantic_query should preserve the user's musical intent
   as a natural-language sentence.
