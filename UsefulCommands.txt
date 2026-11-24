@@ -1,0 +1,1286 @@
+================================================================
+HINDI SONG AGENTIC AI - VOLUME 1
+COMPREHENSIVE COMMAND REFERENCE
+================================================================
+
+Building an Agentic AI Song Search Engine
+
+Technology Stack:
+Google Cloud, Vertex AI, Gemini, Python, PostgreSQL,
+pgvector, FastAPI, Docker, pytest and GitHub.
+
+Reference Python version: 3.12.3
+Official release tag: v1.0-book
+
+================================================================
+IMPORTANT INSTRUCTIONS
+================================================================
+
+This file is a command reference, not an executable shell script.
+
+Execute individual commands as required by the relevant chapter.
+Do not execute the entire file as a shell script.
+
+Unless otherwise specified, commands assume:
+- Google Cloud Shell or a compatible Linux environment.
+- Current working directory is the repository root.
+- The appropriate Python virtual environment is activated.
+
+Operation classifications:
+
+[READ-ONLY]  Inspects existing information.
+[MODIFIES]   Creates or changes files, data or configuration.
+[NETWORK]    Communicates with an external service.
+[AI COST]    May incur Google Cloud model usage charges.
+[SECURITY]   Authentication or security-related operation.
+
+Replace example project IDs and email addresses with your own.
+Never commit credentials, passwords or access tokens.
+
+================================================================
+01. PROJECT DIRECTORY AND REPOSITORY
+================================================================
+
+# Display current directory.
+pwd
+
+# Display repository contents.
+ls -la
+
+# Display Git repository root.
+git rev-parse --show-toplevel
+
+# Display project directory structure.
+find backend database scripts tests -maxdepth 2 -type f | sort
+
+# Display tracked files.
+git ls-files
+
+# Display current Git branch.
+git branch --show-current
+
+# Display repository status.
+git status --short
+
+================================================================
+02. GOOGLE CLOUD PROJECT CONFIGURATION
+================================================================
+
+# [READ-ONLY] Display Google Cloud CLI version.
+gcloud version
+
+# List available Google Cloud projects.
+gcloud projects list
+
+# Display active project.
+gcloud config get-value project
+
+# [MODIFIES] Select your Google Cloud project.
+gcloud config set project YOUR_PROJECT_ID
+
+# Configure the application project environment variable.
+export GOOGLE_CLOUD_PROJECT="$(gcloud config get-value project)"
+
+# Verify the application project environment variable.
+echo "$GOOGLE_CLOUD_PROJECT"
+
+# List enabled Google Cloud services.
+gcloud services list --enabled
+
+# [MODIFIES] Enable Vertex AI API if required.
+gcloud services enable aiplatform.googleapis.com
+
+# Enable Cloud Resource Manager API if required.
+gcloud services enable cloudresourcemanager.googleapis.com
+
+# Verify Vertex AI API availability.
+gcloud services list --enabled --filter="config.name=aiplatform.googleapis.com"
+
+# Billing and appropriate IAM permissions are required.
+# Enabling an API does not grant IAM permissions.
+
+================================================================
+03. GOOGLE CLOUD AUTHENTICATION AND ADC
+================================================================
+
+# [SECURITY] Display authenticated CLI accounts.
+gcloud auth list
+
+# Authenticate the Google Cloud CLI if required.
+gcloud auth login
+
+# Authenticate Application Default Credentials if required.
+gcloud auth application-default login
+
+# Configure ADC quota project if required.
+gcloud auth application-default set-quota-project "$GOOGLE_CLOUD_PROJECT"
+
+# Verify ADC without displaying the access token.
+gcloud auth application-default print-access-token > /dev/null && echo "ADC verification successful"
+
+# CLI authentication and ADC are separate mechanisms.
+# Do not display or commit ADC credential files.
+
+================================================================
+04. PYTHON VIRTUAL ENVIRONMENT
+================================================================
+
+# Display Python version.
+python3 --version
+
+# [MODIFIES] Create project virtual environment.
+python3 -m venv .venv
+
+# Activate virtual environment.
+source .venv/bin/activate
+
+# Verify active environment.
+echo "$VIRTUAL_ENV"
+
+# Verify Python executable.
+which python
+
+# Verify Python version.
+python --version
+
+# Verify pip version.
+python -m pip --version
+
+# Deactivate virtual environment when required.
+deactivate
+
+# Optional: create a separate clean verification environment.
+python3 -m venv "$HOME/hindi-song-book-venv"
+
+# Activate the clean verification environment.
+source "$HOME/hindi-song-book-venv/bin/activate"
+
+# Windows PowerShell activation alternative:
+# .venv\Scripts\Activate.ps1
+
+================================================================
+05. DEPENDENCY INSTALLATION AND VERIFICATION
+================================================================
+
+# [MODIFIES] Install runtime dependencies.
+python -m pip install -r requirements.txt
+
+# Install development and testing dependencies.
+python -m pip install -r requirements-dev.txt
+
+# Alternative: install the reference dependency snapshot.
+python -m pip install -r requirements-lock.txt
+
+# Select the appropriate manifest for your environment.
+# The lock file is a pip freeze snapshot, not a hash-based lock.
+# Cross-platform compatibility is not independently guaranteed.
+
+# [READ-ONLY] Display installed dependencies.
+python -m pip list
+
+# Check dependency compatibility.
+python -m pip check
+
+# Display installed package versions.
+python -m pip show google-genai google-auth fastapi starlette psycopg pytest
+
+# Display HTTP client dependencies.
+python -m pip show httpx httpcore httpx2 httpcore2 truststore
+
+# Verify Psycopg implementation.
+python -c "from psycopg import pq; print(pq.__impl__)"
+
+# Verify Uvicorn installation.
+python -m uvicorn --version
+
+# Verify pytest installation.
+python -m pytest --version
+
+# Verify FastAPI TestClient with strict warning handling.
+python -W error -c "from fastapi.testclient import TestClient; print('TestClient import successful')"
+
+# Verify FastAPI application import.
+PYTHONPATH=. python -c "from backend.main import app; print(app.title, app.version)"
+
+# Execute dependency diagnostic utility.
+python -u scripts/verify_python_dependencies.py
+
+# Inspect dependency snapshot without modifying files.
+python -m pip freeze
+
+# [MAINTAINER ONLY] Regenerate dependency snapshot after review.
+python -m pip freeze > requirements-lock.txt
+
+# Inspect environment-specific references in dependency snapshot.
+grep -nE '(^-e| @ |file:|git\+|/home/|/tmp/)' requirements-lock.txt
+
+================================================================
+06. MUSICBRAINZ CONFIGURATION AND INGESTION
+================================================================
+
+# Configure your MusicBrainz contact email.
+export MUSICBRAINZ_CONTACT_EMAIL="YOUR_CONTACT_EMAIL"
+
+# Verify the variable is configured without displaying the email.
+test -n "$MUSICBRAINZ_CONTACT_EMAIL" && echo "MusicBrainz contact configured"
+
+# [NETWORK] Test MusicBrainz client connectivity.
+python backend/test_musicbrainz_client.py
+
+# [NETWORK] [MODIFIES] Execute initial MusicBrainz experiment.
+python backend/musicbrainz_test.py
+
+# [NETWORK] [MODIFIES] Execute initial catalog ingestion.
+python backend/ingestion_service.py
+
+# Inspect available discovery seeds.
+PYTHONPATH=. python -m backend.song_search_seeds
+
+# [NETWORK] [MODIFIES] Execute expanded catalog ingestion.
+PYTHONPATH=. python -m backend.expanded_ingestion_service
+
+# Inspect generated catalog files.
+ls -lh data/
+
+# Verify catalog JSON syntax.
+python -m json.tool data/hindi_songs_catalog.json > /dev/null
+
+# Execute MusicBrainz automated tests.
+PYTHONPATH=. python -m pytest tests/test_musicbrainz_unit.py -v
+
+# Execute catalog automated tests.
+PYTHONPATH=. python -m pytest tests/test_catalog.py -v
+
+# Execute expanded ingestion automated tests.
+PYTHONPATH=. python -m pytest tests/test_expanded_ingestion.py -v
+
+# Follow MusicBrainz API usage requirements.
+# Avoid unnecessary repeated ingestion requests.
+
+================================================================
+07. GEMINI CONNECTIVITY AND INITIAL ENRICHMENT
+================================================================
+
+# Verify project configuration.
+echo "$GOOGLE_CLOUD_PROJECT"
+
+# Verify ADC authentication.
+gcloud auth application-default print-access-token > /dev/null && echo "ADC verification successful"
+
+# [AI COST] Execute initial Gemini connectivity example.
+PYTHONPATH=. python -m backend.gemini_client
+
+# [AI COST] Execute structured intent parsing example.
+PYTHONPATH=. python -m backend.intent_parser
+
+# [AI COST] [MODIFIES] Execute initial song enrichment.
+PYTHONPATH=. python -m backend.enrichment_service
+
+# Inspect enriched sample file.
+ls -lh data/hindi_songs_enriched.json
+
+# Verify enriched JSON syntax.
+python -m json.tool data/hindi_songs_enriched.json > /dev/null
+
+# Inspect the relevant enrichment tests.
+PYTHONPATH=. python -m pytest tests/test_enrichment_three_songs.py -v
+
+# Gemini-generated classifications are suggestions.
+# They should not be represented as independently verified facts.
+
+================================================================
+08. INCREMENTAL ENRICHMENT AND CHECKPOINTING
+================================================================
+
+# [AI COST] [MODIFIES] Execute incremental enrichment.
+PYTHONPATH=. python -m backend.incremental_enrichment_service
+
+# Inspect incremental checkpoint.
+ls -lh data/hindi_songs_incremental.json
+
+# Verify checkpoint JSON syntax.
+python -m json.tool data/hindi_songs_incremental.json > /dev/null
+
+# Execute checkpoint automated tests.
+PYTHONPATH=. python -m pytest tests/test_incremental_checkpoint.py -v
+
+# Inspect checkpoint file changes.
+git diff -- data/hindi_songs_incremental.json
+
+# Existing classified records should be reused where applicable.
+# Review checkpoint state before repeating enrichment.
+
+================================================================
+09. BATCH ENRICHMENT, RETRIES AND FAILURE TRACKING
+================================================================
+
+# Inspect batch enrichment implementation before execution.
+less backend/batch_enrichment_service.py
+
+# [AI COST] [MODIFIES] Execute batch enrichment.
+PYTHONPATH=. python -m backend.batch_enrichment_service
+
+# Inspect continuous enrichment limits before execution.
+less backend/continuous_batch_enrichment.py
+
+# [AI COST] [MODIFIES] Execute continuous batch enrichment.
+PYTHONPATH=. python -m backend.continuous_batch_enrichment
+
+# Continuous enrichment can generate multiple model requests.
+# Review batch limits, retry behavior and available cloud budget.
+
+# Execute batch enrichment tests.
+PYTHONPATH=. python -m pytest tests/test_batch_enrichment.py -v
+
+# Execute batch metrics tests.
+PYTHONPATH=. python -m pytest tests/test_batch_metrics.py -v
+
+# Execute retry policy tests.
+PYTHONPATH=. python -m pytest tests/test_retry_policy.py -v
+
+# Execute failure tracker tests.
+PYTHONPATH=. python -m pytest tests/test_failure_tracker.py -v
+
+# Execute batch retry integration tests.
+PYTHONPATH=. python -m pytest tests/test_batch_retry_integration.py -v
+
+# Execute batch failure integration tests.
+PYTHONPATH=. python -m pytest tests/test_batch_failure_integration.py -v
+
+================================================================
+10. CATALOG QUALITY AND DISCOVERY VALIDATION
+================================================================
+
+# Generate catalog quality report.
+PYTHONPATH=. python -m backend.catalog_quality_report
+
+# Generate unclassified songs report.
+PYTHONPATH=. python -m backend.unclassified_songs_report
+
+# Generate discovery validation report.
+PYTHONPATH=. python -m backend.discovery_validation_report
+
+# Generate mood analysis report.
+PYTHONPATH=. python -m backend.mood_analysis_report
+
+# Verify category metadata distribution.
+python -u scripts/verify_category_metadata.py
+
+# Execute catalog quality tests.
+PYTHONPATH=. python -m pytest tests/test_catalog_quality_report.py -v
+
+# Execute discovery validation tests.
+PYTHONPATH=. python -m pytest tests/test_discovery_validation.py -v
+
+# Reference dataset:
+# Total records: 50
+# Records with category hints: 32
+# Records without category hints: 18
+# Garba: 7
+# Krishna Bhajan: 7
+# Devotional: 6
+# Folk: 6
+# Patriotic: 6
+
+# Repeated titles are not necessarily duplicate MusicBrainz IDs.
+
+================================================================
+11. STRUCTURED AND NATURAL LANGUAGE SEARCH
+================================================================
+
+# Execute structured song search demonstration.
+PYTHONPATH=. python -m backend.test_song_search
+
+# Execute natural language search demonstration.
+PYTHONPATH=. python -m backend.natural_language_search
+
+# Execute song search service automated tests.
+PYTHONPATH=. python -m pytest tests/test_song_search_service.py -v
+
+# Inspect the structured search implementation.
+less backend/song_search_service.py
+
+# Inspect natural language parsing implementation.
+less backend/natural_language_search.py
+
+================================================================
+12. EMBEDDING GENERATION
+================================================================
+
+# [AI COST] Execute embedding generation demonstration.
+PYTHONPATH=. python -m backend.embedding_service
+
+# [AI COST] [MODIFIES] Generate catalog embeddings.
+PYTHONPATH=. python -m backend.catalog_embedding_service
+
+# Inspect stored embeddings.
+ls -lh data/hindi_song_embeddings.json
+
+# Verify embedding JSON syntax.
+python -m json.tool data/hindi_song_embeddings.json > /dev/null
+
+# Reference embedding model: gemini-embedding-001
+# Reference embedding dimensions: 768
+
+# RETRIEVAL_DOCUMENT is used for document embeddings.
+# RETRIEVAL_QUERY is used for search query embeddings.
+
+# Reuse existing compatible embeddings where possible.
+# Avoid unnecessary regeneration and cloud usage charges.
+
+================================================================
+13. LOCAL SEMANTIC SEARCH
+================================================================
+
+# [AI COST] Execute local semantic search demonstration.
+PYTHONPATH=. python -m backend.semantic_search_service
+
+# Inspect semantic search implementation.
+less backend/semantic_search_service.py
+
+# Local semantic search uses stored JSON embeddings.
+# Query embedding generation requires Vertex AI connectivity.
+
+# Cosine similarity scores are not confidence percentages.
+
+================================================================
+14. DOCKER ENVIRONMENT VERIFICATION
+================================================================
+
+# Display Docker version.
+docker --version
+
+# Verify Docker daemon connectivity.
+docker info
+
+# List running containers.
+docker ps
+
+# List all containers.
+docker ps -a
+
+# List locally available Docker images.
+docker images
+
+# List Docker-managed volumes.
+docker volume ls
+
+# Inspect container resource utilization.
+docker stats --no-stream
+
+================================================================
+15. POSTGRESQL CONFIGURATION AND PERSISTENT STORAGE
+================================================================
+
+# [SECURITY] Create the database configuration only if absent.
+# The following command prompts for a password without echoing it.
+# Use a strong password and retain it securely.
+
+if [ ! -e .env.postgres ]; then (umask 077; read -r -s -p "PostgreSQL password: " DB_PASSWORD; printf '\n'; if [ -n "$DB_PASSWORD" ]; then printf 'POSTGRES_PASSWORD=%s\n' "$DB_PASSWORD" > .env.postgres; else echo "Password cannot be empty"; fi); fi
+
+# Restrict configuration file permissions.
+chmod 600 .env.postgres
+
+# Verify configuration file availability and permissions.
+ls -l .env.postgres
+
+# Verify the configuration is ignored by Git.
+git check-ignore .env.postgres
+
+# Never display or commit the database password.
+
+# [MODIFIES] Create persistent PostgreSQL storage directory.
+mkdir -p "$HOME/hindi-song-postgres-data"
+
+# Inspect directory permissions.
+ls -ld "$HOME/hindi-song-postgres-data"
+
+# PostgreSQL may assign its own ownership to the data directory.
+# Do not recursively change its permissions or ownership.
+
+================================================================
+16. POSTGRESQL AND PGVECTOR CONTAINER
+================================================================
+
+# [NETWORK] Download PostgreSQL with pgvector support.
+docker pull pgvector/pgvector:pg16
+
+# [MODIFIES] Create the PostgreSQL container.
+# Execute only if a container with this name does not exist.
+
+docker run -d --name hindi-song-postgres --restart unless-stopped --env-file .env.postgres -e POSTGRES_USER=songadmin -e POSTGRES_DB=hindi_songs -p 127.0.0.1:5432:5432 -v "$HOME/hindi-song-postgres-data:/var/lib/postgresql/data" pgvector/pgvector:pg16
+
+# Verify container status.
+docker ps --filter name=hindi-song-postgres
+
+# Verify PostgreSQL readiness.
+docker exec hindi-song-postgres pg_isready -U songadmin -d hindi_songs
+
+# Display PostgreSQL container logs.
+docker logs --tail 50 hindi-song-postgres
+
+# Verify PostgreSQL major version inside persistent storage.
+docker exec hindi-song-postgres cat /var/lib/postgresql/data/PG_VERSION
+
+# Display container image identifier.
+docker inspect --format='{{.Image}}' hindi-song-postgres
+
+# Display persistent storage mount.
+docker inspect --format='{{json .Mounts}}' hindi-song-postgres
+
+# Open PostgreSQL interactive console.
+docker exec -it hindi-song-postgres psql -U songadmin -d hindi_songs
+
+# Exit the interactive PostgreSQL console using:
+# \q
+
+# PostgreSQL is exposed only on the local loopback interface.
+# The Docker image tag is mutable.
+
+================================================================
+17. PGVECTOR EXTENSION, SCHEMA AND MIGRATION
+================================================================
+
+# [MODIFIES] Enable pgvector extension.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+# Apply base database schema.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/schema.sql
+
+# Apply song metadata migration.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/migrations/001_add_song_metadata.sql
+
+# Verify schema using the existing SQL verification file.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/01_verify_schema.sql
+
+# The Volume 1 reference migration uses TEXT[] for listening_time.
+# The listening_time index uses GIN.
+
+# The corrected migration is intended for a fresh schema.
+# An older database with a TEXT listening_time column requires
+# a separately reviewed upgrade migration.
+
+================================================================
+18. POSTGRESQL EMBEDDING AND METADATA IMPORTS
+================================================================
+
+# [MODIFIES] Import existing catalog embeddings into PostgreSQL.
+PYTHONPATH=. python -m backend.postgres_embedding_import
+
+# Import enriched song metadata.
+PYTHONPATH=. python -m backend.postgres_metadata_import
+
+# These imports use existing JSON files.
+# They do not require new Gemini embedding generation.
+
+# Verify embedding import.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/02_verify_embeddings.sql
+
+# Verify metadata import.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/03_verify_metadata.sql
+
+# Verify category metadata.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/04_verify_category.sql
+
+# Execute metadata importer automated tests.
+PYTHONPATH=. python -m pytest tests/test_postgres_metadata_import.py -v
+
+================================================================
+19. COMPLETE DATABASE SQL VERIFICATION
+================================================================
+
+# [READ-ONLY] Execute all reusable SQL verification scripts.
+python -u scripts/verify_database_sql.py
+
+# Execute a selected SQL verification script.
+python -u scripts/verify_database_sql.py --file 04_verify_category.sql
+
+# Verify database schema.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/01_verify_schema.sql
+
+# Verify embeddings.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/02_verify_embeddings.sql
+
+# Verify metadata.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/03_verify_metadata.sql
+
+# Verify category distribution.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/04_verify_category.sql
+
+# Verify structured hybrid search filters.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/05_verify_hybrid_search.sql
+
+# Verify database recovery.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/06_verify_database_recovery.sql
+
+# Verify category filtering.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/07_verify_category_filter.sql
+
+# Reference SQL execution result:
+# Total scripts: 7
+# Passed: 7
+# Failed: 0
+
+# Reference database values:
+# Total records: 50
+# Unique MusicBrainz IDs: 50
+# Duplicate IDs: 0
+# Embedding dimensions: 768
+# Populated categories: 32
+# NULL categories: 18
+# Empty categories: 0
+
+# Review actual returned SQL values.
+# Successful execution alone does not assert every reference value.
+
+================================================================
+20. POSTGRESQL SEMANTIC AND HYBRID SEARCH
+================================================================
+
+# [AI COST] Execute PostgreSQL semantic search demonstration.
+PYTHONPATH=. python -m backend.postgres_semantic_search
+
+# [AI COST] Execute hybrid search demonstration.
+PYTHONPATH=. python -m backend.postgres_hybrid_search
+
+# [AI COST] Execute a custom semantic search.
+PYTHONPATH=. python -c "from backend.postgres_semantic_search import postgres_semantic_search; print(postgres_semantic_search('Peaceful Hindi devotional songs', limit=5))"
+
+# [AI COST] Execute a custom hybrid search.
+PYTHONPATH=. python -c "from backend.postgres_hybrid_search import hybrid_search; print(hybrid_search(query='Peaceful Hindi devotional songs suitable for morning prayers', listening_time='morning', limit=5))"
+
+# [AI COST] Execute category-based hybrid search.
+PYTHONPATH=. python -c "from backend.postgres_hybrid_search import hybrid_search; print(hybrid_search(query='Traditional Garba songs', category='garba', limit=5))"
+
+# [AI COST] Verify category hybrid search integration.
+PYTHONPATH=. python -u scripts/verify_category_hybrid_search.py
+
+# Reference verification scenarios:
+# Garba: 7 results
+# Krishna Bhajan: 7 results
+# Nonexistent category: 0 results
+
+# Hybrid search combines vector similarity and structured filters.
+# Structured filters use strict matching.
+# Missing category metadata may exclude otherwise relevant songs.
+
+================================================================
+21. AGENTIC AI QUERY UNDERSTANDING
+================================================================
+
+# [AI COST] Execute Gemini query understanding demonstration.
+PYTHONPATH=. python -m backend.agent_query_understanding
+
+# [AI COST] Execute custom query understanding.
+PYTHONPATH=. python -c "from backend.agent_query_understanding import understand_query; print(understand_query('Find folk Garba songs').model_dump_json(indent=2))"
+
+# [AI COST] Execute all category intent verification scenarios.
+PYTHONPATH=. python -u scripts/verify_agent_category_intent.py
+
+# Execute automated agent category integration tests.
+PYTHONPATH=. python -m pytest tests/test_agent_category_integration.py -v
+
+# Reference live verification result:
+# Total scenarios: 5
+# Passed: 5
+# Failed: 0
+
+# Gemini responses may vary between executions.
+# Pydantic validates the structured intent response.
+
+================================================================
+22. SONG SEARCH AGENT AND RECOMMENDATIONS
+================================================================
+
+# [AI COST] Execute complete song search agent demonstration.
+PYTHONPATH=. python -m backend.song_search_agent
+
+# [AI COST] Execute custom agent search.
+PYTHONPATH=. python -c "from backend.song_search_agent import run_song_agent; import json; print(json.dumps(run_song_agent('Find Krishna Bhajans'), indent=2, ensure_ascii=False))"
+
+# [AI COST] Execute recommendation explanation demonstration.
+PYTHONPATH=. python -m backend.song_recommendation_service
+
+# The agent coordinates query understanding and hybrid search.
+# Recommendation explanations can require additional model calls.
+
+================================================================
+23. FASTAPI AND UVICORN
+================================================================
+
+# Verify FastAPI application import.
+PYTHONPATH=. python -c "from backend.main import app; print(app.title, app.version)"
+
+# Start local HTTP server.
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+
+# Optional development mode with automatic reload.
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+
+# Use only one server command at a time.
+
+# Local API documentation:
+# http://127.0.0.1:8000/docs
+
+# Local ReDoc documentation:
+# http://127.0.0.1:8000/redoc
+
+# Local OpenAPI specification:
+# http://127.0.0.1:8000/openapi.json
+
+# Stop the foreground server using Ctrl+C.
+
+================================================================
+24. REST API VERIFICATION USING CURL
+================================================================
+
+# Execute curl commands from a second terminal while Uvicorn runs.
+
+# Verify root endpoint.
+curl -i http://127.0.0.1:8000/
+
+# Verify health endpoint.
+curl -i http://127.0.0.1:8000/health
+
+# Inspect OpenAPI specification.
+curl -sS http://127.0.0.1:8000/openapi.json | python -m json.tool
+
+# [AI COST] Search for morning devotional songs.
+curl -i -X POST http://127.0.0.1:8000/api/v1/songs/search -H "Content-Type: application/json" -d '{"query":"Find peaceful devotional songs for morning prayers"}'
+
+# [AI COST] Search for Garba songs.
+curl -i -X POST http://127.0.0.1:8000/api/v1/songs/search -H "Content-Type: application/json" -d '{"query":"Find traditional Garba songs for Dandiya"}'
+
+# [AI COST] Search for Krishna Bhajans.
+curl -i -X POST http://127.0.0.1:8000/api/v1/songs/search -H "Content-Type: application/json" -d '{"query":"Find Krishna Bhajans"}'
+
+# Verify whitespace-only request rejection.
+curl -i -X POST http://127.0.0.1:8000/api/v1/songs/search -H "Content-Type: application/json" -d '{"query":"   "}'
+
+# Verify missing query rejection.
+curl -i -X POST http://127.0.0.1:8000/api/v1/songs/search -H "Content-Type: application/json" -d '{}'
+
+# Expected valid request status: HTTP 200.
+# Expected invalid request status: HTTP 422.
+# Verify X-Request-ID response headers.
+
+# Health endpoint checks application responsiveness.
+# It is not a complete external dependency readiness probe.
+
+================================================================
+25. AUTOMATED REGRESSION TESTING
+================================================================
+
+# Discover all automated tests.
+PYTHONPATH=. python -m pytest tests/ --collect-only -q
+
+# Execute complete automated regression suite.
+PYTHONPATH=. python -m pytest tests/ -v
+
+# Execute complete suite with strict warning handling.
+PYTHONPATH=. python -m pytest tests/ -v -W error
+
+# Execute suite with concise output.
+PYTHONPATH=. python -m pytest tests/ -q
+
+# Stop at first failure.
+PYTHONPATH=. python -m pytest tests/ -x -v
+
+# Display detailed traceback for troubleshooting.
+PYTHONPATH=. python -m pytest tests/ -v --tb=long
+
+# Execute FastAPI regression tests.
+PYTHONPATH=. python -m pytest tests/test_api.py -v -W error
+
+# Execute selected test by name.
+PYTHONPATH=. python -m pytest tests/ -k category -v
+
+# Reference verification date: November 24, 2026
+# Python: 3.12.3
+# pytest: 9.1.1
+# Collected: 102 tests in 1.99 seconds
+# Normal regression: 102 passed in 1.93 seconds
+# Strict warning regression: 102 passed in 1.94 seconds
+
+# Execution times vary by environment.
+# The two regression runs cover the same 102 test cases.
+
+================================================================
+26. LIVE APPLICATION INTEGRATION VERIFICATION
+================================================================
+
+# Verify active Python environment.
+echo "$VIRTUAL_ENV"
+
+# Verify Python dependencies.
+python -m pip check
+
+# Verify Google Cloud project.
+gcloud config get-value project
+
+# Verify application project environment variable.
+echo "$GOOGLE_CLOUD_PROJECT"
+
+# Verify ADC.
+gcloud auth application-default print-access-token > /dev/null && echo "ADC verification successful"
+
+# Verify PostgreSQL readiness.
+docker exec hindi-song-postgres pg_isready -U songadmin -d hindi_songs
+
+# Verify database configuration permissions.
+ls -l .env.postgres
+
+# Execute all database SQL verification scripts.
+python -u scripts/verify_database_sql.py
+
+# Verify JSON category metadata.
+python -u scripts/verify_category_metadata.py
+
+# [AI COST] Verify live hybrid search.
+PYTHONPATH=. python -u scripts/verify_category_hybrid_search.py
+
+# [AI COST] Verify live Gemini agent intent.
+PYTHONPATH=. python -u scripts/verify_agent_category_intent.py
+
+# [AI COST] Verify live FastAPI integration.
+PYTHONPATH=. python -u scripts/verify_api_category_integration.py
+
+# Reference live verification results:
+# SQL execution: 7/7
+# JSON category distribution: 2/2
+# Live hybrid search: 3/3
+# Live Gemini intent: 5/5
+# Live FastAPI integration: 3/3
+
+# Expected model requests for the three live AI utilities:
+# Generative requests: 8
+# Embedding requests: 6
+# Total: 14, excluding retries and manual HTTP requests.
+
+# FastAPI TestClient does not require a running Uvicorn server.
+# Actual HTTP transport is verified separately using curl.
+
+================================================================
+27. STRUCTURED LOGGING AND OBSERVABILITY
+================================================================
+
+# Inspect logging middleware and JSON formatter.
+less backend/api_observability.py
+
+# Inspect ingestion logging implementation.
+less backend/logger.py
+
+# Start Uvicorn and capture output in a temporary local log.
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 2>&1 | tee /tmp/hindi-song-api.log
+
+# Inspect captured logs from another terminal.
+tail -n 50 /tmp/hindi-song-api.log
+
+# Monitor logs continuously.
+tail -f /tmp/hindi-song-api.log
+
+# Locate completed request events.
+grep 'HTTP request completed' /tmp/hindi-song-api.log
+
+# Locate request correlation fields.
+grep '"request_id"' /tmp/hindi-song-api.log
+
+# Expected completed-request logging fields:
+# timestamp
+# severity
+# message
+# logger
+# request_id
+# method
+# path
+# status_code
+# duration_ms
+
+# Correlate HTTP X-Request-ID headers with application logs.
+# Do not commit logs containing sensitive information.
+
+================================================================
+28. POSTGRESQL PERSISTENCE, BACKUP AND RECOVERY
+================================================================
+
+# Verify existing containers.
+docker ps -a
+
+# Verify persistent directory.
+ls -ld "$HOME/hindi-song-postgres-data"
+
+# Verify configuration file exists.
+ls -l .env.postgres
+
+# [MODIFIES] Start an existing stopped container.
+docker start hindi-song-postgres
+
+# Verify readiness.
+docker exec hindi-song-postgres pg_isready -U songadmin -d hindi_songs
+
+# Verify persistent database version.
+docker exec hindi-song-postgres cat /var/lib/postgresql/data/PG_VERSION
+
+# If the container no longer exists, recreate it using the
+# original docker run command from Section 16.
+
+# Reuse the same persistent directory and database configuration.
+# Do not delete the existing data directory.
+# Do not regenerate embeddings simply because a container disappeared.
+
+# Verify recovered database.
+docker exec -i hindi-song-postgres psql -v ON_ERROR_STOP=1 -U songadmin -d hindi_songs < database/verification/06_verify_database_recovery.sql
+
+# Verify all recovered database properties.
+python -u scripts/verify_database_sql.py
+
+# Optional: create a logical database backup outside the repository.
+mkdir -p "$HOME/hindi-song-backups"
+
+# [MODIFIES] Create a timestamped PostgreSQL custom-format backup.
+(umask 077; docker exec hindi-song-postgres pg_dump -U songadmin -d hindi_songs -Fc > "$HOME/hindi-song-backups/hindi_songs_$(date +%Y%m%d_%H%M%S).dump")
+
+# List available backups.
+ls -lh "$HOME/hindi-song-backups"
+
+# Backup files must be protected and restore-tested.
+# Persistent storage is not a substitute for independent backups.
+# Backup and restore testing is separate from container recovery.
+
+================================================================
+29. TROUBLESHOOTING COMMANDS
+================================================================
+
+# Diagnose incorrect working directory.
+pwd
+
+# Verify Python environment.
+echo "$VIRTUAL_ENV"
+
+# Verify Python executable.
+which python
+
+# Verify installed dependencies.
+python -m pip check
+
+# Diagnose dependency imports.
+python -u scripts/verify_python_dependencies.py
+
+# Diagnose Python module import issues.
+PYTHONPATH=. python -m pytest tests/ --collect-only -q
+
+# Diagnose ADC authentication.
+gcloud auth application-default print-access-token > /dev/null && echo "ADC verification successful"
+
+# Restore ADC authentication if required.
+gcloud auth application-default login
+
+# Diagnose incorrect project configuration.
+gcloud config get-value project
+
+# Refresh application project environment variable.
+export GOOGLE_CLOUD_PROJECT="$(gcloud config get-value project)"
+
+# Diagnose missing PostgreSQL container.
+docker ps -a
+
+# Diagnose PostgreSQL startup failures.
+docker logs --tail 100 hindi-song-postgres
+
+# Diagnose PostgreSQL connection readiness.
+docker exec hindi-song-postgres pg_isready -U songadmin -d hindi_songs
+
+# Diagnose occupied local ports.
+ss -ltnp
+
+# Diagnose running Uvicorn processes.
+ps -ef | grep '[u]vicorn'
+
+# Diagnose available disk space.
+df -h
+
+# Diagnose project storage usage.
+du -sh data/
+
+# Diagnose JSON syntax errors.
+python -m json.tool data/hindi_songs_incremental.json > /dev/null
+
+# Diagnose failed automated tests.
+PYTHONPATH=. python -m pytest tests/ -x -v --tb=long
+
+# For HTTP 429 or quota failures:
+# Review Google Cloud quota, billing and retry behavior.
+# Avoid uncontrolled repeated requests.
+
+# For HTTP 422:
+# Review request payload and Pydantic validation requirements.
+
+# For HTTP 500:
+# Correlate the response request ID with application logs.
+# Do not expose internal exception details to API clients.
+
+================================================================
+30. GIT SOURCE CONTROL AND REVIEW
+================================================================
+
+# Display Git version.
+git --version
+
+# Display current branch.
+git branch --show-current
+
+# Display repository status.
+git status
+
+# Display concise repository status.
+git status --short
+
+# Display modified files.
+git diff --name-only
+
+# Display change statistics.
+git diff --stat
+
+# Review unstaged changes.
+git diff
+
+# Check tracked changes for whitespace errors.
+git diff --check
+
+# List untracked files.
+git ls-files --others --exclude-standard
+
+# Display recent commit history.
+git log --oneline -10
+
+# Display current commit identifier.
+git rev-parse HEAD
+
+# Display remote configuration.
+git remote -v
+
+# [NETWORK] Refresh remote branch information.
+git fetch origin
+
+# Compare local and remote main branches.
+git rev-list --left-right --count HEAD...origin/main
+
+# Display differences between local and remote main.
+git diff origin/main..HEAD
+
+================================================================
+31. SECURITY AND SECRET VERIFICATION
+================================================================
+
+# Verify database configuration is ignored.
+git check-ignore .env.postgres
+
+# Verify database configuration is not tracked.
+git ls-files -- .env.postgres
+
+# Expected: no tracked file output.
+
+# Verify virtual environment is ignored.
+git check-ignore .venv/
+
+# Display database configuration file permissions.
+ls -l .env.postgres
+
+# Verify Gitleaks installation.
+gitleaks version
+
+# Scan Git history with redacted findings.
+gitleaks git --redact --verbose
+
+# Scan staged changes before committing.
+gitleaks git --staged --redact --verbose
+
+# Review staged files.
+git diff --cached --name-only
+
+# Review staged changes.
+git diff --cached
+
+# Check staged changes for whitespace errors.
+git diff --cached --check
+
+# Never commit:
+# Database passwords
+# Google Cloud credential files
+# Service account private keys
+# Access tokens
+# Personal authentication information
+# Virtual environments
+# Sensitive logs or database backups
+
+# Secret scanning reduces risk but is not a complete security audit.
+
+================================================================
+32. COMMIT, PUSH AND REMOTE VERIFICATION
+================================================================
+
+# Maintainer workflow:
+# Diagnose -> Fix -> Test -> Review -> Commit -> Push -> Verify
+
+# Review repository status.
+git status --short
+
+# Stage selected reviewed files individually.
+git add README.md
+
+# Stage the command reference when reviewed.
+git add UsefulCommands.txt
+
+# Stage dependency manifests when reviewed.
+git add requirements.txt requirements-dev.txt requirements-lock.txt
+
+# Stage other reviewed changes as appropriate.
+
+# Verify staged inventory.
+git diff --cached --name-only
+
+# Verify staged change statistics.
+git diff --cached --stat
+
+# Verify staged whitespace.
+git diff --cached --check
+
+# Verify staged changes contain no detected secrets.
+gitleaks git --staged --redact --verbose
+
+# [MODIFIES] Commit reviewed changes.
+git commit -m "Describe the reviewed application changes"
+
+# [NETWORK] Push committed changes to GitHub.
+git push origin main
+
+# Refresh remote information.
+git fetch origin
+
+# Verify local commit.
+git rev-parse HEAD
+
+# Verify remote tracking commit.
+git rev-parse origin/main
+
+# Verify actual remote main branch.
+git ls-remote origin refs/heads/main
+
+# Verify local and remote synchronization.
+git rev-list --left-right --count HEAD...origin/main
+
+# Expected synchronized result: 0 0
+
+# Verify working tree status.
+git status --short
+
+================================================================
+33. OFFICIAL VOLUME 1 RELEASE TAG
+================================================================
+
+# Official release tag: v1.0-book
+
+# List release tags.
+git tag -l
+
+# Inspect the official tag.
+git show --no-patch v1.0-book
+
+# Resolve the tag to its associated commit.
+git rev-parse 'v1.0-book^{commit}'
+
+# Inspect the remote release tag and peeled commit.
+git ls-remote --tags origin 'refs/tags/v1.0-book*'
+
+# [MAINTAINER ONLY] Create an annotated tag if it does not exist.
+# Execute only after final release approval.
+git tag -a v1.0-book -m "Volume 1 verified reference implementation"
+
+# Publish the approved tag.
+git push origin v1.0-book
+
+# Verify the published tag.
+git ls-remote --tags origin 'refs/tags/v1.0-book*'
+
+# If the tag already exists, do not recreate or force-update it
+# without a separately reviewed release procedure.
+
+# Published release tags should normally remain immutable.
+
+# Inspect the files associated with the official release.
+git ls-tree -r --name-only v1.0-book
+
+# Create a local ZIP archive of the official release.
+git archive --format=zip --output="$HOME/hindi-song-v1-book.zip" v1.0-book
+
+# Verify archive availability.
+ls -lh "$HOME/hindi-song-v1-book.zip"
+
+================================================================
+34. ADDITIONAL PROJECT DOCUMENTATION
+================================================================
+
+# Read the root project documentation.
+less README.md
+
+# Read verification utility documentation.
+less scripts/README.md
+
+# Read automated testing documentation.
+less tests/README.md
+
+# Read database verification documentation.
+less database/verification/README.md
+
+# Verify documentation file and module references.
+python -u scripts/verify_documentation_references.py
+
+# Read this command reference.
+less UsefulCommands.txt
+
+# Search for a particular command.
+grep -in "hybrid" UsefulCommands.txt
+
+# Search for verification commands.
+grep -in "verify" UsefulCommands.txt
+
+================================================================
+VOLUME 1 IMPLEMENTATION BOUNDARIES
+================================================================
+
+Volume 1 provides a hands-on reference implementation of:
+
+- MusicBrainz song catalog ingestion.
+- Gemini-based metadata enrichment.
+- Incremental and batch processing.
+- Retry policies and failure tracking.
+- Catalog quality and discovery validation.
+- Embedding generation.
+- Local semantic search.
+- PostgreSQL and pgvector integration.
+- Structured and hybrid search.
+- Agentic AI query understanding and orchestration.
+- FastAPI REST endpoints.
+- Structured application logging.
+- Automated regression and live integration verification.
+
+Advanced production capabilities are reserved for future volumes:
+
+- HTTPS/TLS certificate management.
+- Mutual TLS.
+- OAuth and API authorization.
+- API rate limiting and usage quotas.
+- Centralized cloud observability.
+- OpenTelemetry instrumentation.
+- CI/CD pipelines.
+- Production cloud deployment.
+- Web and mobile applications.
+- Advanced multi-agent workflows.
+- Large-scale search relevance evaluation.
+
+Successful reference verification does not guarantee complete
+production readiness or the absence of every application defect.
+
+================================================================
+END OF COMMAND REFERENCE
+================================================================

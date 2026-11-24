@@ -1,0 +1,14 @@
+# Hindi Song Agentic AI Search Engine
+# Volume 1 - Development and Testing Dependencies
+# Reference Python Version: 3.12.3
+
+# Application Runtime Dependencies
+-r requirements.txt
+
+# Automated Regression Testing
+pytest==9.1.1
+
+# FastAPI TestClient Compatibility
+httpx2==2.16.2
+httpcore2==2.16.2
+truststore==0.10.5

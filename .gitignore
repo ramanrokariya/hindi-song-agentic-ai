@@ -50,3 +50,6 @@ data/hindi_songs_failed.json
 
 # Historical intermediate datasets
 data/hindi_songs_incremental_before_*.json
+
+# JSON catalog backup files
+*.backup.json

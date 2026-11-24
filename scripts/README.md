@@ -172,3 +172,148 @@ No Gemini API calls are required.
 A successful execution confirms that the SQL statements
 completed without errors. Readers must still review
 the returned values against expected dataset results.
+
+## 6. Verify Python Dependencies
+
+    python -u scripts/verify_python_dependencies.py
+
+This utility uses Python's Abstract Syntax Tree (AST)
+to inspect imports under:
+
+- backend/
+- scripts/
+- tests/
+
+It reports installed third-party distribution versions
+without executing the application source modules.
+
+Use this utility when reviewing dependencies or
+preparing application requirements files.
+
+No Gemini API calls, database connections or additional
+Python packages are required.
+
+### Limitations
+
+- Local modules may be reported as unresolved.
+- Shared namespaces may map to multiple distributions.
+- Dynamic imports may not be detected.
+- Command-line tools and optional package extras may
+  require separate verification.
+- Installed package versions do not independently
+  establish runtime compatibility.
+
+Use pip check and clean-environment regression testing
+to complement static dependency analysis.
+
+## Volume 1 - Live Integration Verification Results
+
+Reference verification date: November 24, 2026.
+
+All existing verification utilities were executed
+using the clean Python reference environment.
+
+| Verification utility | Result |
+|---|---|
+| verify_database_sql.py | 7/7 SQL scripts executed successfully |
+| verify_category_metadata.py | Both JSON distributions matched |
+| verify_category_hybrid_search.py | 3/3 scenarios passed |
+| verify_agent_category_intent.py | 5/5 scenarios passed |
+| verify_api_category_integration.py | 3/3 scenarios passed |
+
+### Recommended Execution Order
+
+1. Verify Python environment and dependencies.
+2. Verify Google Cloud project configuration.
+3. Verify Application Default Credentials.
+4. Verify PostgreSQL readiness.
+5. Execute database SQL verification.
+6. Execute JSON category metadata verification.
+7. Execute live hybrid search verification.
+8. Execute live Gemini agent intent verification.
+9. Execute live FastAPI integration verification.
+10. Verify local HTTP endpoints through Uvicorn.
+
+### Cost Considerations
+
+The database and JSON metadata verification utilities
+do not require Gemini model requests.
+
+The expected model request counts for the live
+verification utilities are:
+
+| Verification | Generative requests | Embedding requests |
+|---|---:|---:|
+| Hybrid search | 0 | 3 |
+| Agent intent | 5 | 0 |
+| FastAPI integration | 3 | 3 |
+| Total | 8 | 6 |
+
+These estimates exclude retries and additional
+manual HTTP search requests.
+
+### Operational Considerations
+
+- Confirm infrastructure availability before execution.
+- Investigate failures before repeating live requests.
+- Review actual SQL values in addition to execution status.
+- Never display or commit authentication credentials.
+- Do not regenerate stored embeddings unnecessarily.
+- Record actual verification results before publication.
+
+Successful verification represents the tested scenarios
+and reference environment, not a guarantee of complete
+production readiness.
+
+
+## Documentation Reference Verification
+
+Script: verify_documentation_references.py
+
+Purpose:
+
+Verify that local file references, Python module
+references, dependency manifests and Markdown links
+in the project documentation resolve successfully.
+
+Execution:
+
+    python -u scripts/verify_documentation_references.py
+
+Reference verification date: November 24, 2026.
+
+Initial verification results:
+
+| Metric | Result |
+|---|---:|
+| Total detected references | 115 |
+| Passed | 115 |
+| Failed | 0 |
+
+Additional manual source review confirmed:
+
+- 24 documented backend module filenames.
+- 24 backend module main entry points.
+- Four documented search and agent function signatures.
+- 34 command reference sections.
+
+### Prerequisites
+
+- Execute from the project repository root.
+- Activate the appropriate Python virtual environment.
+- Install the required project dependencies.
+
+### Verification Boundaries
+
+- Uses Python standard library modules.
+- Does not execute backend application modules.
+- Does not generate Gemini model requests.
+- Does not modify database records.
+- Does not validate external website availability.
+- Does not independently verify command runtime behavior.
+- Uses pattern-based reference detection.
+- Reference counts may increase as documentation evolves.
+
+A successful result confirms that detected references
+resolve correctly, not that every documented command
+has been independently execution-tested.

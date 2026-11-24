@@ -147,3 +147,249 @@ availability or live Gemini interpretation accuracy.
 
 Live integration verification should complement
 automated regression testing.
+
+## FastAPI Endpoint and Error-Handling Tests
+
+Test module:
+
+    tests/test_api.py
+
+Execute the API regression tests:
+
+    PYTHONPATH=. python -m pytest \
+      tests/test_api.py -v -W error
+
+The -W error option treats Python warnings as errors.
+
+Coverage includes:
+
+- Health endpoint
+- Root endpoint
+- Successful song search
+- Category response serialization
+- Missing query validation
+- Empty query validation
+- Whitespace-only query validation
+- Maximum query length validation
+- Internal server error handling
+- Request ID propagation
+- Unique request ID generation
+- Prevention of internal exception disclosure
+
+Reference verification result:
+
+- Total test scenarios: 9
+- Passed: 9
+- Failed: 0
+- Reference execution time: 1.35 seconds
+
+Execution time may vary across environments.
+
+## FastAPI TestClient Dependency Compatibility
+
+The reference implementation was verified using:
+
+- FastAPI 0.159.1
+- Starlette 1.9.0
+- httpx 0.28.1
+- httpx2 2.16.2
+- httpcore 1.0.9
+- httpcore2 2.16.2
+- truststore 0.10.5
+
+The httpx2 package supports the TestClient dependency
+configuration used by the installed Starlette version.
+
+The existing httpx package is retained to preserve
+compatibility with other application dependencies.
+
+Refer to the project dependency manifests for the
+final supported installation configuration.
+
+## API Testing Limitations
+
+The API regression tests use FastAPI TestClient
+and mocked song search agent dependencies.
+
+These tests do not require:
+
+- Live Gemini API requests
+- A running PostgreSQL container
+- A running Uvicorn server
+- Google Cloud API credits
+
+These tests verify in-process HTTP behavior.
+They do not verify external network connectivity,
+TLS certificates or production deployment readiness.
+
+## FastAPI Endpoint and Error-Handling Tests
+
+Test module:
+
+    tests/test_api.py
+
+Execute the API regression tests:
+
+    PYTHONPATH=. python -m pytest \
+      tests/test_api.py -v -W error
+
+The -W error option treats Python warnings as errors.
+
+Coverage includes:
+
+- Health endpoint
+- Root endpoint
+- Successful song search
+- Category response serialization
+- Missing query validation
+- Empty query validation
+- Whitespace-only query validation
+- Maximum query length validation
+- Internal server error handling
+- Request ID propagation
+- Unique request ID generation
+- Prevention of internal exception disclosure
+
+Reference verification result:
+
+- Total test scenarios: 9
+- Passed: 9
+- Failed: 0
+- Reference execution time: 1.35 seconds
+
+Execution time may vary across environments.
+
+## FastAPI TestClient Dependency Compatibility
+
+The reference implementation was verified using:
+
+- FastAPI 0.159.1
+- Starlette 1.9.0
+- httpx 0.28.1
+- httpx2 2.16.2
+- httpcore 1.0.9
+- httpcore2 2.16.2
+- truststore 0.10.5
+
+The httpx2 package supports the TestClient dependency
+configuration used by the installed Starlette version.
+
+The existing httpx package is retained to preserve
+compatibility with other application dependencies.
+
+Refer to the project dependency manifests for the
+final supported installation configuration.
+
+## API Testing Limitations
+
+The API regression tests use FastAPI TestClient
+and mocked song search agent dependencies.
+
+These tests do not require:
+
+- Live Gemini API requests
+- A running PostgreSQL container
+- A running Uvicorn server
+- Google Cloud API credits
+
+These tests verify in-process HTTP behavior.
+They do not verify external network connectivity,
+TLS certificates or production deployment readiness.
+
+## Complete Regression Suite - Volume 1
+
+The complete automated regression suite was verified
+in a clean Python virtual environment on November 24,
+2026.
+
+### Prerequisites
+
+- Python 3.12.3 reference environment
+- Activated Python virtual environment
+- Development dependencies installed
+
+Install development dependencies:
+
+    python -m pip install -r requirements-dev.txt
+
+Verify dependency compatibility:
+
+    python -m pip check
+
+Execute the following commands from the repository root.
+
+### 1. Discover Automated Tests
+
+    PYTHONPATH=. python -m pytest tests/ --collect-only -q
+
+Reference result:
+
+    102 tests collected in 1.99s
+
+### 2. Execute Complete Regression Suite
+
+    PYTHONPATH=. python -m pytest tests/ -v
+
+Reference result:
+
+    102 passed in 1.93s
+
+### 3. Execute Strict Warning Verification
+
+    PYTHONPATH=. python -m pytest tests/ -v -W error
+
+Reference result:
+
+    102 passed in 1.94s
+
+The -W error option treats Python warnings as errors,
+subject to applicable warning filters.
+
+This helps identify deprecated APIs, dependency
+compatibility concerns and other warning-related issues.
+
+### 4. Regression Testing Results
+
+| Metric | Reference Result |
+|---|---|
+| Tests collected | 102 |
+| Tests passed | 102 |
+| Tests failed | 0 |
+| Execution errors | 0 |
+| Tests skipped | 0 |
+| Success rate | 100% |
+| Normal execution time | 1.93 seconds |
+| Strict warning execution time | 1.94 seconds |
+
+Execution times may vary depending on hardware,
+operating system and available resources.
+
+### 5. Regression Testing Best Practices
+
+- Execute the complete suite after dependency changes.
+- Execute targeted tests during defect correction.
+- Execute the complete suite before release.
+- Investigate unexpected warnings and failures.
+- Avoid suppressing warnings without justification.
+- Keep automated tests reproducible.
+- Track live integration verification separately.
+- Do not commit credentials or sensitive test data.
+
+### 6. Testing Limitations
+
+Passing the automated regression suite validates the
+behaviors covered by the collected test cases.
+
+It does not independently establish:
+
+- Complete application code coverage.
+- Production scalability or performance.
+- External service availability.
+- Gemini response accuracy for every possible query.
+- PostgreSQL recovery under every failure scenario.
+- Production security readiness.
+- Absence of all application defects.
+
+Live integration and infrastructure verification are
+performed separately using the repository verification
+utilities.

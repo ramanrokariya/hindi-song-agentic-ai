@@ -1,0 +1,28 @@
+# Hindi Song Agentic AI Search Engine
+# Volume 1 - Application Runtime Dependencies
+# Reference Python Version: 3.12.3
+
+# Google Cloud Authentication and Gemini AI
+google-auth==2.62.0
+google-genai==2.29.0
+
+# Data Processing and Vector Operations
+numpy==2.5.4
+pandas==3.0.6
+
+# Data Validation and Structured AI Responses
+pydantic==2.14.1
+
+# HTTP Client and Retry Configuration
+requests==2.34.2
+urllib3==2.8.0
+httpx==0.28.1
+httpcore==1.0.9
+
+# PostgreSQL Database Connectivity
+psycopg[binary]==3.3.6
+
+# REST API and ASGI Framework
+fastapi==0.159.1
+starlette==1.9.0
+uvicorn==0.54.0
